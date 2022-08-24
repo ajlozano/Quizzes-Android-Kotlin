@@ -1,14 +1,20 @@
 package uoc.quizz
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
-import com.squareup.picasso.Picasso;
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import com.squareup.picasso.Picasso
+import uoc.quizz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        Picasso.get()
+            .load("https://upload.wikimedia.org/wikipedia/commons/e/ed/Scapula_ant_numbered.png")
+            .into(binding.image)
     }
 }
 
