@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+        name="Question"
+        type="uoc.quizz.Question"/>
 
     </data>
 
@@ -51,8 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="This is the question"
-            android:textSize="15dp"
+            android:text="@{Question.title}"
+            tools:text="This is the question"
+            android:textSize="20dp"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textAlignment="center"
@@ -86,7 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Option2"
+                android:text="@{Question.options[0]}"
+                tools:text="Option1"
                 android:textSize="20dp" />
 
             <RadioButton
@@ -94,7 +99,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Option2"
+                android:text="@{Question.options[1]}"
+                tools:text="Option2"
                 android:textSize="20dp" />
 
             <RadioButton
@@ -102,7 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Option3"
+                android:text="@{Question.options[2]"
+                tools:text="Option3"
                 android:textSize="20dp" />
         </RadioGroup>
 
