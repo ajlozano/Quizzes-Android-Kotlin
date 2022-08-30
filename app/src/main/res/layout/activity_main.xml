@@ -5,8 +5,9 @@
 
     <data>
         <variable
-        name="Question"
-        type="uoc.quizz.Question"/>
+        name="Question" type="uoc.quizz.Question"/>
+        <variable
+        name="selectedOption" type="uoc.quizz.MainActivity"/>
 
     </data>
 
@@ -32,7 +33,7 @@
             android:id="@+id/questionNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1"
+            tools:text="1"
             android:textColor="@color/black"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="@+id/slash"
@@ -42,7 +43,7 @@
             android:id="@+id/questionTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
+            tools:text="3"
             android:textColor="@color/black"
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="@+id/slash"
@@ -54,7 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="@{Question.title}"
             tools:text="This is the question"
             android:textSize="20dp"
             android:textColor="@color/black"
@@ -90,7 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="OPTION1"
                 tools:text="Option1"
                 android:textSize="20dp" />
 
@@ -99,7 +98,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="OPTION2"
                 tools:text="Option2"
                 android:textSize="20dp" />
 
@@ -108,7 +106,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="OPTION3"
                 tools:text="Option3"
                 android:textSize="20dp" />
         </RadioGroup>

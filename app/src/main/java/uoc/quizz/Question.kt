@@ -4,26 +4,26 @@ import android.widget.ImageView
 
 
 public object QConstants {
-    const val Q1_TITLE = "pregunta1"
-    const val Q1_OPT_A = "A"
-    const val Q1_OPT_B = "B"
-    const val Q1_OPT_C = "C"
-    const val Q1_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/e/ed/Scapula_ant_numbered.png"
+    const val Q1_TITLE = "Who is the author of this painting?"
+    const val Q1_OPT_A = "Pablo Picasso"
+    const val Q1_OPT_B = "Salvador Dalí"
+    const val Q1_OPT_C = "Diego Velazquez"
+    const val Q1_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/9/99/Las_Meninas_01.jpg"
 
-    const val Q2_TITLE = ""
-    const val Q2_OPT_A = ""
-    const val Q2_OPT_B = ""
-    const val Q2_OPT_C = ""
-    const val Q2_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/e/ed/Scapula_ant_numbered.png"
+    const val Q2_TITLE = "Who is he?"
+    const val Q2_OPT_A = "Nikola Tesla"
+    const val Q2_OPT_B = "Mark Twain"
+    const val Q2_OPT_C = "Thomas Alva Edison"
+    const val Q2_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/Tesla_circa_1890.jpeg/800px-Tesla_circa_1890.jpeg"
 
-    const val Q3_TITLE = ""
-    const val Q3_OPT_A = ""
-    const val Q3_OPT_B = ""
-    const val Q3_OPT_C = ""
-    const val Q3_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/e/ed/Scapula_ant_numbered.png"
+    const val Q3_TITLE = "What country does this flag belong to?"
+    const val Q3_OPT_A = "El Salvador"
+    const val Q3_OPT_B = "Nicaragua"
+    const val Q3_OPT_C = "Uruguay"
+    const val Q3_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Nicaragua.svg/1920px-Flag_of_Nicaragua.svg.png"
 
 }
 
-public class Question (val title:String, val options:Array<String>, val result:String, val imgURL:String) {
+public class Question (val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) {
 
 }
