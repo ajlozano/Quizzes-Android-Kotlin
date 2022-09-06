@@ -4,6 +4,7 @@ import android.os.Parcelable
 import android.widget.ImageView
 import kotlinx.parcelize.Parcelize
 
+var questionsInitialized = false
 
 object QConstants {
     const val Q1_TITLE = "Who is the author of this painting?"
@@ -28,4 +29,4 @@ object QConstants {
 }
 
 @Parcelize
-class Question (val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable
+class Question (var title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable

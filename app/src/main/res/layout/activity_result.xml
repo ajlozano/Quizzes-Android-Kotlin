@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/check_symbol"
+            tools:src="@drawable/check_symbol"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:text="IS CORRECT!"
+            tools:text="@string/is_correct"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -39,11 +39,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image" />
         <TextView
-            android:id="@+id/attempts"
-            android:layout_width="match_parent"
+            android:id="@+id/attemptsText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            tools:text="You did it in 3 attempts"
+            tools:text="Total Attempts: "
             android:textColor="@color/black"
             android:textSize="30dp"
             android:textAlignment="center"
@@ -52,14 +52,25 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/resultText" />
 
+        <TextView
+            android:id="@+id/attempts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            tools:text="3"
+            android:textColor="@color/black"
+            android:textSize="30dp"
+            app:layout_constraintBottom_toBottomOf="@id/attemptsText"
+            app:layout_constraintStart_toEndOf="@id/attemptsText"/>
+
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:backgroundTint="@color/blue"
+            tools:text="@string/send_button"
             android:gravity="center"
-            android:text="NEXT"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
