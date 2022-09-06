@@ -1,9 +1,11 @@
 package uoc.quizz
 
+import android.os.Parcelable
 import android.widget.ImageView
+import kotlinx.parcelize.Parcelize
 
 
-public object QConstants {
+object QConstants {
     const val Q1_TITLE = "Who is the author of this painting?"
     const val Q1_OPT_A = "Pablo Picasso"
     const val Q1_OPT_B = "Salvador Dalí"
@@ -22,8 +24,8 @@ public object QConstants {
     const val Q3_OPT_C = "Uruguay"
     const val Q3_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Nicaragua.svg/1920px-Flag_of_Nicaragua.svg.png"
 
+    const val Q_TOTAL = 2
 }
 
-public class Question (val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) {
-
-}
+@Parcelize
+class Question (val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable
