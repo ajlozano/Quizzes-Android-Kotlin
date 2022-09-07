@@ -5,13 +5,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
+import android.widget.Toast
 import uoc.quizz.databinding.ActivityResultBinding
 
 
 public class ResultActivity : AppCompatActivity() {
     companion object{
         const val QUESTION_KEY = "Question"
-        const val QUESTION_NUM = "QuestionNumber"
+        const val QUESTION_NUM_KEY = "QuestionNumber"
+        const val SELECTED_OPTION_KEY = "SelectedAnswer"
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -21,41 +23,50 @@ public class ResultActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val bundle:Bundle = intent.extras!!
-        val questions = bundle.getParcelableArrayList<Question>(QUESTION_KEY)!!
-        var questionNum = bundle.getInt(QUESTION_NUM)
+        val questionsObject = bundle.getParcelableArrayList<Question>(QUESTION_KEY)!!
+        val selectedAnswer = bundle.getString(SELECTED_OPTION_KEY)
+        var numberOfQuestion = bundle.getInt(QUESTION_NUM_KEY)
 
-        if (questionNum < QConstants.Q_TOTAL) {
-            binding.resultText.setText(getString(R.string.is_correct))
-            binding.attemptsText.setText(getString(R.string.question_attempts))
-            binding.button.setText(getString(R.string.next_button))
-            binding.attempts.setText(questions[questionNum].attempts.toString())
-            binding.image.setImageDrawable(resources.getDrawable(R.drawable.check_symbol))
-            questionNum++
+        if(selectedAnswer == questionsObject[numberOfQuestion].result){
+            if (numberOfQuestion < QConstants.Q_TOTAL) {
+                binding.resultText.setText(getString(R.string.is_correct))
+                binding.attemptsText.setText(getString(R.string.question_attempts))
+                binding.button.setText(getString(R.string.next_button))
+                binding.attempts.setText(questionsObject[numberOfQuestion].attempts.toString())
+                binding.image.setImageDrawable(resources.getDrawable(R.drawable.check_symbol))
+                numberOfQuestion++
+            }
+            else {
+                binding.resultText.setText(getString(R.string.congratulations))
+                binding.attemptsText.setText(getString(R.string.total_attempts))
+                binding.button.setText(getString(R.string.finish_button))
+                binding.image.setImageDrawable(resources.getDrawable(R.drawable.winner_symbol))
+
+                var attempts = 0
+                for (q in questionsObject) {
+                    attempts += q.attempts
+                    q.attempts = 0
+                }
+                binding.attempts.setText(attempts.toString())
+                numberOfQuestion = 0
+            }
         }
         else {
-            binding.resultText.setText(getString(R.string.congratulations))
-            binding.attemptsText.setText(getString(R.string.total_attempts))
-            binding.button.setText(getString(R.string.finish_button))
-            binding.image.setImageDrawable(resources.getDrawable(R.drawable.winner_symbol))
-
-            var attempts = 0
-            for (q in questions) {
-                attempts += q.attempts
-            }
-
-            binding.attempts.setText(attempts.toString())
-
+            //Toast.makeText(this, questionsObject[numberOfQuestion].attempts, Toast.LENGTH_SHORT).show()
+            binding.resultText.setText(getString(R.string.wrong_answer))
+            binding.button.setText(getString(R.string.retry_button))
+            binding.image.setImageDrawable(resources.getDrawable(R.drawable.error_symbol))
         }
 
         binding.button.setOnClickListener { _ ->
-            openMainActivity(questions, questionNum)
+            openMainActivity(questionsObject, numberOfQuestion)
         }
     }
 
-    private fun openMainActivity(questions: ArrayList<Question>, questionNum: Int) {
+    private fun openMainActivity(questionsObject: ArrayList<Question>, numberOfQuestion: Int) {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(QUESTION_KEY, questions)
-        intent.putExtra(QUESTION_NUM, questionNum)
+        intent.putExtra(QUESTION_KEY, questionsObject)
+        intent.putExtra(QUESTION_NUM_KEY, numberOfQuestion)
         startActivity(intent)
     }
 }

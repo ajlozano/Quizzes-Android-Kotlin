@@ -5,10 +5,13 @@
     <string name="question3_title">What country does this flag belong to?</string>
     <string name="send_button">SEND</string>
     <string name="is_correct">IS CORRECT!</string>
+    <string name="no_option_selected">No option selected</string>
+    <string name="wrong_answer">WRONG ANSWER!</string>
     <string name="congratulations">CONGRATULATIONS!</string>
     <string name="question_attempts">Question attempts: </string>
-    <string name="total_attempts">Total Attempts:</string>
+    <string name="total_attempts">Total Attempts: </string>
     <string name="next_button">NEXT</string>
+    <string name="retry_button">RETRY</string>
     <string name="finish_button">FINISH</string>
 
 </resources>

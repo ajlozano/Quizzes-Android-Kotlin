@@ -26,6 +26,7 @@ object QConstants {
     const val Q3_IMG_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Flag_of_Nicaragua.svg/1920px-Flag_of_Nicaragua.svg.png"
 
     const val Q_TOTAL = 2
+    const val NO_OPTION_SELECTED = "No option selected"
 }
 
 @Parcelize

@@ -30,30 +30,26 @@ class MainActivity : AppCompatActivity() {
         binding.optionOne.text = questions[questionNum].options[0]
         binding.optionTwo.text = questions[questionNum].options[1]
         binding.optionThree.text = questions[questionNum].options[2]
-
         Picasso.get()
             .load(questions[questionNum].imgURL)
             .into(binding.image)
-
-        selectedOption = questions[questionNum].options[0]
 
         binding.radioGroup.setOnCheckedChangeListener { _, checkedId ->
             selectedOption = when(checkedId){
                 binding.optionOne.id -> binding.optionOne.text as String
                 binding.optionTwo.id -> binding.optionTwo.text as String
                 binding.optionThree.id -> binding.optionThree.text as String
-                else -> "No option selected"
+                else -> {getString(R.string.no_option_selected) as String}
             }
         }
 
         binding.button.setOnClickListener { _ ->
-            questions[questionNum].attempts ++
-
-            if(selectedOption == questions[questionNum].result) {
+            if(selectedOption != "") {
+                questions[questionNum].attempts ++
                 openResultActivity()
-              }
+            }
             else {
-                Toast.makeText(this, "Incorrect answer. Try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.no_option_selected), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -61,19 +57,19 @@ class MainActivity : AppCompatActivity() {
     private fun questionManager(){
         if (questionsInitialized) {
             val bundle:Bundle = intent.extras!!
-            questionNum = bundle.getInt(ResultActivity.QUESTION_NUM)
+            questionNum = bundle.getInt(ResultActivity.QUESTION_NUM_KEY)
             questions = bundle.getParcelableArrayList<Question>(ResultActivity.QUESTION_KEY)!!
         }
         else if (!questionsInitialized){
             questionsInitialized = initQuestions()
-
         }
     }
 
     private fun openResultActivity () {
         val intent = Intent(this, ResultActivity::class.java)
         intent.putExtra(ResultActivity.QUESTION_KEY, questions)
-        intent.putExtra(ResultActivity.QUESTION_NUM, questionNum)
+        intent.putExtra(ResultActivity.SELECTED_OPTION_KEY, selectedOption)
+        intent.putExtra(ResultActivity.QUESTION_NUM_KEY, questionNum)
         startActivity(intent)
         finish()
     }
