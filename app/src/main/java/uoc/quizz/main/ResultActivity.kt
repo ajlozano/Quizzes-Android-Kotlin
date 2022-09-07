@@ -1,11 +1,12 @@
-package uoc.quizz
+package uoc.quizz.main
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
-import android.widget.Toast
+import uoc.quizz.QConstants
+import uoc.quizz.Question
+import uoc.quizz.R
 import uoc.quizz.databinding.ActivityResultBinding
 
 

@@ -7,7 +7,7 @@
         <variable
         name="Question" type="uoc.quizz.Question"/>
         <variable
-        name="selectedOption" type="uoc.quizz.MainActivity"/>
+        name="selectedOption" type="uoc.quizz.main.MainActivity"/>
 
     </data>
 
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".MainActivity">
+        tools:context=".main.MainActivity">
 
         <TextView
             android:id="@+id/slash"

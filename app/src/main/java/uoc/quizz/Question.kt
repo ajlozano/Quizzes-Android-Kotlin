@@ -2,6 +2,8 @@ package uoc.quizz
 
 import android.os.Parcelable
 import android.widget.ImageView
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 var questionsInitialized = false
@@ -30,4 +32,5 @@ object QConstants {
 }
 
 @Parcelize
-class Question (var title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable
+@Entity(tableName = "Questions")
+data class Question (@PrimaryKey val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable

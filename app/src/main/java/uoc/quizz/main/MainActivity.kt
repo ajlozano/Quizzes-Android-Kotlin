@@ -1,14 +1,14 @@
-package uoc.quizz
+package uoc.quizz.main
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
-import android.view.View
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.tabs.TabLayout
 import com.squareup.picasso.Picasso
+import uoc.quizz.*
 import uoc.quizz.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         questionManager()
+
+        //val dbHelper = FeedReaderDbHelper(context)
+       // val db = dbHelper.writableDatabase
 
         binding.questionNumber.text = (questionNum + 1).toString()
         binding.questionTotal.text = (QConstants.Q_TOTAL + 1).toString()
