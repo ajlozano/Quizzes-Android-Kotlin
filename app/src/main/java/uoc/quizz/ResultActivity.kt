@@ -47,6 +47,8 @@ public class ResultActivity : AppCompatActivity() {
                     attempts += q.attempts
                     q.attempts = 0
                 }
+
+
                 binding.attempts.setText(attempts.toString())
                 numberOfQuestion = 0
             }

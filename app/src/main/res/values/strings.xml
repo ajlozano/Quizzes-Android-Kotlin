@@ -12,6 +12,6 @@
     <string name="total_attempts">Total Attempts: </string>
     <string name="next_button">NEXT</string>
     <string name="retry_button">RETRY</string>
-    <string name="finish_button">FINISH</string>
+    <string name="finish_button">START AGAIN</string>
 
 </resources>
