@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quizzes</string>
+    <string name="app_name" translatable="false">Quizzes</string>
     <string name="question1_title">Who is the author of this painting?</string>
     <string name="question2_title">Who is he?</string>
     <string name="question3_title">What country does this flag belong to?</string>

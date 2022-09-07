@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="question1_title">Quien es el autor de esta pintura?</string>
+    <string name="question2_title">Quien es él?</string>
+    <string name="question3_title">A qué país pertenece esta bandera?</string>
+    <string name="send_button">ENVIAR</string>
+    <string name="is_correct">ES CORRECTO!</string>
+    <string name="no_option_selected">Opción no seleccionada</string>
+    <string name="wrong_answer">RESPUESTA INCORRECTA!</string>
+    <string name="congratulations">ENHORABUENA!</string>
+    <string name="question_attempts">Intentos: </string>
+    <string name="total_attempts">Intentos totales: </string>
+    <string name="next_button">SIGUIENTE</string>
+    <string name="retry_button">REINTENTAR</string>
+    <string name="finish_button">EMPEZAR DE NUEVO</string>
+</resources>
