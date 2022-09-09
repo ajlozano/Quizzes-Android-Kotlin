@@ -7,6 +7,7 @@ import android.os.Bundle
 import uoc.quizz.QConstants
 import uoc.quizz.Question
 import uoc.quizz.R
+import uoc.quizz.database.SQLiteHelper
 import uoc.quizz.databinding.ActivityResultBinding
 
 
@@ -16,6 +17,7 @@ public class ResultActivity : AppCompatActivity() {
         const val QUESTION_NUM_KEY = "QuestionNumber"
         const val SELECTED_OPTION_KEY = "SelectedAnswer"
     }
+    private lateinit var sqliteHelper: SQLiteHelper
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,18 +26,29 @@ public class ResultActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val bundle:Bundle = intent.extras!!
-        val questionsObject = bundle.getParcelableArrayList<Question>(QUESTION_KEY)!!
         val selectedAnswer = bundle.getString(SELECTED_OPTION_KEY)
         var numberOfQuestion = bundle.getInt(QUESTION_NUM_KEY)
 
-        if(selectedAnswer == questionsObject[numberOfQuestion].result){
-            if (numberOfQuestion < QConstants.Q_TOTAL) {
+        sqliteHelper = SQLiteHelper(this)
+        var questionsObject = sqliteHelper.readAllQuestionsFromDb()
+
+        numberOfQuestion = questionsAndBindingManager(binding, selectedAnswer, numberOfQuestion, questionsObject)
+
+        binding.button.setOnClickListener { _ ->
+            openMainActivity(numberOfQuestion)
+        }
+    }
+
+    private fun questionsAndBindingManager(binding: ActivityResultBinding ,answer: String?, qNum: Int, q: ArrayList<Question>) : Int {
+        var qNumber = qNum
+        if(answer == q[qNumber].result){
+            if (qNumber < QConstants.Q_TOTAL) {
                 binding.resultText.setText(getString(R.string.is_correct))
                 binding.attemptsText.setText(getString(R.string.question_attempts))
                 binding.button.setText(getString(R.string.next_button))
-                binding.attempts.setText(questionsObject[numberOfQuestion].attempts.toString())
+                binding.attempts.setText(q[qNumber].attempts.toString())
                 binding.image.setImageDrawable(resources.getDrawable(R.drawable.check_symbol))
-                numberOfQuestion++
+                qNumber++
             }
             else {
                 binding.resultText.setText(getString(R.string.congratulations))
@@ -44,14 +57,19 @@ public class ResultActivity : AppCompatActivity() {
                 binding.image.setImageDrawable(resources.getDrawable(R.drawable.winner_symbol))
 
                 var attempts = 0
-                for (q in questionsObject) {
-                    attempts += q.attempts
-                    q.attempts = 0
+                for (qtn in q) {
+                    attempts += qtn.attempts
+                    qtn.attempts = 0
                 }
 
-
                 binding.attempts.setText(attempts.toString())
-                numberOfQuestion = 0
+                qNumber = 0
+
+                //Reset all rows from Database
+                for (qtn in q ) {
+                    sqliteHelper.deleteQuestion(qtn)
+                    sqliteHelper.insertQuestionToDb(qtn)
+                }
             }
         }
         else {
@@ -60,15 +78,10 @@ public class ResultActivity : AppCompatActivity() {
             binding.button.setText(getString(R.string.retry_button))
             binding.image.setImageDrawable(resources.getDrawable(R.drawable.error_symbol))
         }
-
-        binding.button.setOnClickListener { _ ->
-            openMainActivity(questionsObject, numberOfQuestion)
-        }
+        return qNumber
     }
-
-    private fun openMainActivity(questionsObject: ArrayList<Question>, numberOfQuestion: Int) {
+    private fun openMainActivity(numberOfQuestion: Int) {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(QUESTION_KEY, questionsObject)
         intent.putExtra(QUESTION_NUM_KEY, numberOfQuestion)
         startActivity(intent)
     }

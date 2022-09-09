@@ -40,7 +40,7 @@ class SQLiteHelper(context: Context) :
         onUpgrade(db, oldVersion, newVersion)
     }
 
-    fun insertQuestion(q: Question): Long {
+    fun insertQuestionToDb(q: Question): Long {
         val db = this.writableDatabase
 
         val values = ContentValues().apply {
@@ -53,13 +53,12 @@ class SQLiteHelper(context: Context) :
             put(FeedEntry.IMAGE, q.imgURL)
             put(FeedEntry.ATTEMPTS, q.attempts)
         }
-
         //db.close()
         return db.insert(FeedEntry.TBL_QUESTION, null, values)
     }
     @SuppressLint("Range")
-    fun readQuestionFromDb(id: Int) : ArrayList<Question> {
-        val questions = ArrayList<Question>()
+    fun readQuestionFromDb(id: Int) : Question {
+        var question: Question = Question(0,"", arrayOf("", "", ""), "", "", 0)
         val db = this.writableDatabase
         var cursor: Cursor? = null
         try {
@@ -68,7 +67,7 @@ class SQLiteHelper(context: Context) :
         } catch (e: SQLiteException) {
             // if table not yet present, create it
             db.execSQL(SQL_CREATE_ENTRIES)
-            return ArrayList()
+            return question
         }
         var title: String
         var optionA: String
@@ -79,7 +78,46 @@ class SQLiteHelper(context: Context) :
         var attempts: Int
 
         if (cursor!!.moveToFirst()) {
+            title = cursor.getString(cursor.getColumnIndex(FeedEntry.NAME_TITLE))
+            optionA = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_A))
+            optionB = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_B))
+            optionC = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_C))
+            result = cursor.getString(cursor.getColumnIndex(FeedEntry.RESULT))
+            image = cursor.getString(cursor.getColumnIndex(FeedEntry.IMAGE))
+            attempts = cursor.getInt(cursor.getColumnIndex(FeedEntry.ATTEMPTS))
+            question = Question(id, title, arrayOf(optionA, optionB, optionC), result, image, attempts)
+        }
+        return question
+    }
+    @SuppressLint("Range")
+    fun readAllQuestionsFromDb(): ArrayList<Question> {
+        val questions = ArrayList<Question>()
+        val db = this.writableDatabase
+        var cursor: Cursor? = null
+        val projection = arrayOf(FeedEntry.QUESTION_ID, FeedEntry.NAME_TITLE, FeedEntry.OPTION_A, FeedEntry.OPTION_B,
+        FeedEntry.OPTION_C, FeedEntry.RESULT, FeedEntry.IMAGE, FeedEntry.ATTEMPTS)
+
+        try {
+            cursor = db.query(
+                FeedEntry.TBL_QUESTION, projection, null, null, null, null,
+                FeedEntry.QUESTION_ID, null)
+        } catch (e: SQLiteException) {
+            // if table not yet present, create it
+            db.execSQL(SQL_CREATE_ENTRIES)
+            return ArrayList()
+        }
+        var id: Int
+        var title: String
+        var optionA: String
+        var optionB: String
+        var optionC: String
+        var result: String
+        var image: String
+        var attempts: Int
+
+        if (cursor!!.moveToFirst()) {
             while (cursor.isAfterLast == false) {
+                id = cursor.getInt(cursor.getColumnIndex(FeedEntry.QUESTION_ID))
                 title = cursor.getString(cursor.getColumnIndex(FeedEntry.NAME_TITLE))
                 optionA = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_A))
                 optionB = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_B))
@@ -92,91 +130,19 @@ class SQLiteHelper(context: Context) :
             }
         }
         return questions
-
-        /*
-        val db = this.readableDatabase
-        // Define a projection that specifies which columns from the database
-        // you will actually use after this query.
-        val projection = arrayOf(FeedEntry.QUESTION_ID,
-            FeedEntry.NAME_TITLE,
-            FeedEntry.OPTION_A,
-            FeedEntry.OPTION_B,
-            FeedEntry.OPTION_C,
-            FeedEntry.RESULT,
-            FeedEntry.IMAGE,
-            FeedEntry.ATTEMPTS)
-
-        // Filter results WHERE "title" = 'My Title'
-        val selection = "${FeedEntry.NAME_TITLE} = ?"
-        val selectionArgs = arrayOf("My title")
-        // How you want the results sorted in the resulting Cursor
-        val sortOrder = "${FeedEntry.ATTEMPTS} DESC"
-
-        val cursor = db.query(
-            FeedEntry.TBL_QUESTION,   // The table to query
-            projection,             // The array of columns to return (pass null to get all)
-            selection,              // The columns for the WHERE clause
-            selectionArgs,          // The values for the WHERE clause
-            null,                   // don't group the rows
-            null,                   // don't filter by row groups
-            sortOrder               // The sort order
-        )
-
-        Log.e("SQLite read Test", cursor.toString())
-
-        val itemIds = mutableListOf<Long>()
-
-        with(cursor) {
-            do {
-                val itemId = getLong(getColumnIndexOrThrow(FeedEntry.QUESTION_ID))
-                itemIds.add(itemId)
-                Log.e("SQLite read Test", itemId.toString())
-            } while (moveToNext())
-        }
-        cursor.close()
-        return itemIds
-        */
     }
-    @SuppressLint("Range")
-    fun getAllQuestions(id: Int): ArrayList<Question> {
-        val qList: ArrayList<Question> = ArrayList()
-        val selectQuery = "SELECT * FROM $FeedReaderContract.FeedEntry.TBL_QUESTION"
-        val db = this.readableDatabase
-
-        val cursor: Cursor?
-
-        try {
-            cursor = db.rawQuery(selectQuery, null)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            db.execSQL(selectQuery)
-            return ArrayList()
-        }
-
-        var title: String
-        var optionA: String
-        var optionB: String
-        var optionC: String
-        var result: String
-        var img: String
-        var attempts: Int
-
-        if (cursor.moveToFirst()) {
-            do {
-                title = cursor.getString(cursor.getColumnIndex("title"))
-                optionA = cursor.getString(cursor.getColumnIndex("optionA"))
-                optionB = cursor.getString(cursor.getColumnIndex("optionB"))
-                optionC = cursor.getString(cursor.getColumnIndex("optionC"))
-                result = cursor.getString(cursor.getColumnIndex("result"))
-                img = cursor.getString(cursor.getColumnIndex("image"))
-                attempts = cursor.getInt(cursor.getColumnIndex("attempts"))
-
-                val q = Question(id, title, arrayOf(optionA, optionB, optionC), result, img, attempts)
-                qList.add(q)
-            } while (cursor.moveToNext())
-        }
-        return qList
+    fun deleteQuestion(q: Question): Boolean {
+        // Gets the data repository in write mode
+        val db = writableDatabase
+        // Define 'where' part of query.
+        val selection = FeedEntry.QUESTION_ID + " LIKE ?"
+        // Specify arguments in placeholder order.
+        val selectionArgs = arrayOf(q.id.toString())
+        // Issue SQL statement.
+        db.delete(FeedEntry.TBL_QUESTION, selection, selectionArgs)
+        return true
     }
+
     companion object {
         const val DATABASE_VERSION = 1
         const val DATABASE_NAME = "question.db"
