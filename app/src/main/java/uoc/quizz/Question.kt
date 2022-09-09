@@ -32,5 +32,5 @@ object QConstants {
 }
 
 @Parcelize
-@Entity(tableName = "Questions")
-data class Question (@PrimaryKey val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable
+@Entity(tableName = "tblquestion")
+data class Question (@PrimaryKey val id: Int, val title:String, val options:Array<String>, val result:String, val imgURL:String, var attempts:Int) : Parcelable
