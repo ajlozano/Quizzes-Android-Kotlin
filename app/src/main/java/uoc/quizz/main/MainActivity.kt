@@ -44,9 +44,9 @@ class MainActivity : AppCompatActivity() {
         initQuestionsToDb()
     }
     private fun initQuestions(): Boolean {
-        questions.add(Question(0, getString(R.string.question1_title), arrayOf(QConstants.Q1_OPT_A, QConstants.Q1_OPT_B, QConstants.Q1_OPT_C), QConstants.Q1_OPT_C, QConstants.Q1_IMG_URL, 0))
-        questions.add(Question(1, getString(R.string.question2_title), arrayOf(QConstants.Q2_OPT_A, QConstants.Q2_OPT_B, QConstants.Q2_OPT_C), QConstants.Q2_OPT_A, QConstants.Q2_IMG_URL, 0))
-        questions.add(Question(2, getString(R.string.question3_title), arrayOf(QConstants.Q3_OPT_A, QConstants.Q3_OPT_B, QConstants.Q3_OPT_C), QConstants.Q3_OPT_B, QConstants.Q3_IMG_URL, 0))
+        questions.add(Question(0, getString(R.string.question1_title), arrayOf(QConstants.Q1_OPT_A, QConstants.Q1_OPT_B, QConstants.Q1_OPT_C), QConstants.Q1_IMG_URL, 0))
+        questions.add(Question(1, getString(R.string.question2_title), arrayOf(QConstants.Q2_OPT_A, QConstants.Q2_OPT_B, QConstants.Q2_OPT_C), QConstants.Q2_IMG_URL, 0))
+        questions.add(Question(2, getString(R.string.question3_title), arrayOf(QConstants.Q3_OPT_A, QConstants.Q3_OPT_B, QConstants.Q3_OPT_C), QConstants.Q3_IMG_URL, 0))
         return true
     }
 

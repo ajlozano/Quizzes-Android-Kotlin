@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import android.util.Log
 import uoc.quizz.Question
 import uoc.quizz.database.FeedReaderContract.FeedEntry
 
@@ -49,7 +48,7 @@ class SQLiteHelper(context: Context) :
             put(FeedEntry.OPTION_A, q.options[0])
             put(FeedEntry.OPTION_B, q.options[1])
             put(FeedEntry.OPTION_C, q.options[2])
-            put(FeedEntry.RESULT, q.result)
+            put(FeedEntry.RESULT, q.GetCorrectResponse())
             put(FeedEntry.IMAGE, q.imgURL)
             put(FeedEntry.ATTEMPTS, q.attempts)
         }
@@ -58,9 +57,9 @@ class SQLiteHelper(context: Context) :
     }
     @SuppressLint("Range")
     fun readQuestionFromDb(id: Int) : Question {
-        var question: Question = Question(0,"", arrayOf("", "", ""), "", "", 0)
+        var question = Question(0,"", arrayOf("", "", ""), "", 0)
         val db = this.writableDatabase
-        var cursor: Cursor? = null
+        val cursor: Cursor?
         try {
             cursor = db.rawQuery("select * from " + FeedEntry.TBL_QUESTION +
             " WHERE " + FeedEntry.QUESTION_ID + " ='" + id.toString() + "'", null)
@@ -69,23 +68,23 @@ class SQLiteHelper(context: Context) :
             db.execSQL(SQL_CREATE_ENTRIES)
             return question
         }
-        var title: String
-        var optionA: String
-        var optionB: String
-        var optionC: String
-        var result: String
-        var image: String
-        var attempts: Int
+        val title: String
+        val optionA: String
+        val optionB: String
+        val optionC: String
+        //val result: String
+        val image: String
+        val attempts: Int
 
         if (cursor!!.moveToFirst()) {
             title = cursor.getString(cursor.getColumnIndex(FeedEntry.NAME_TITLE))
             optionA = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_A))
             optionB = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_B))
             optionC = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_C))
-            result = cursor.getString(cursor.getColumnIndex(FeedEntry.RESULT))
+            //result = cursor.getString(cursor.getColumnIndex(FeedEntry.RESULT))
             image = cursor.getString(cursor.getColumnIndex(FeedEntry.IMAGE))
             attempts = cursor.getInt(cursor.getColumnIndex(FeedEntry.ATTEMPTS))
-            question = Question(id, title, arrayOf(optionA, optionB, optionC), result, image, attempts)
+            question = Question(id, title, arrayOf(optionA, optionB, optionC), image, attempts)
         }
         return question
     }
@@ -93,7 +92,7 @@ class SQLiteHelper(context: Context) :
     fun readAllQuestionsFromDb(): ArrayList<Question> {
         val questions = ArrayList<Question>()
         val db = this.writableDatabase
-        var cursor: Cursor? = null
+        val cursor: Cursor?
         val projection = arrayOf(FeedEntry.QUESTION_ID, FeedEntry.NAME_TITLE, FeedEntry.OPTION_A, FeedEntry.OPTION_B,
         FeedEntry.OPTION_C, FeedEntry.RESULT, FeedEntry.IMAGE, FeedEntry.ATTEMPTS)
 
@@ -111,7 +110,7 @@ class SQLiteHelper(context: Context) :
         var optionA: String
         var optionB: String
         var optionC: String
-        var result: String
+        //var result: String
         var image: String
         var attempts: Int
 
@@ -122,10 +121,10 @@ class SQLiteHelper(context: Context) :
                 optionA = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_A))
                 optionB = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_B))
                 optionC = cursor.getString(cursor.getColumnIndex(FeedEntry.OPTION_C))
-                result = cursor.getString(cursor.getColumnIndex(FeedEntry.RESULT))
+                //result = cursor.getString(cursor.getColumnIndex(FeedEntry.RESULT))
                 image = cursor.getString(cursor.getColumnIndex(FeedEntry.IMAGE))
                 attempts = cursor.getInt(cursor.getColumnIndex(FeedEntry.ATTEMPTS))
-                questions.add(Question(id, title, arrayOf(optionA, optionB, optionC), result, image, attempts))
+                questions.add(Question(id, title, arrayOf(optionA, optionB, optionC), image, attempts))
                 cursor.moveToNext()
             }
         }

@@ -41,7 +41,7 @@ public class ResultActivity : AppCompatActivity() {
 
     private fun questionsAndBindingManager(binding: ActivityResultBinding ,answer: String?, qNum: Int, q: ArrayList<Question>) : Int {
         var qNumber = qNum
-        if(answer == q[qNumber].result){
+        if(answer == q[qNumber].GetCorrectResponse()){
             if (qNumber < QConstants.Q_TOTAL) {
                 binding.resultText.setText(getString(R.string.is_correct))
                 binding.attemptsText.setText(getString(R.string.question_attempts))
