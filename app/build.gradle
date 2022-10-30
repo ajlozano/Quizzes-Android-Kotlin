@@ -18,6 +18,15 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+/*    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }*/
+/*    sourceSets {
+        androidTest.manifest.srcFile "src/androidTest/AndroidManifest.xml"
+    }*/
+
     buildTypes {
         release {
             minifyEnabled false
@@ -40,6 +49,7 @@ android {
 dependencies {
     //Room
     implementation("androidx.room:room-runtime:2.4.3")
+    implementation 'androidx.test.espresso:espresso-accessibility:3.4.0'
     // To use Kotlin annotation processing tool (kapt)
     kapt("androidx.room:room-compiler:2.4.3")
 
@@ -53,5 +63,8 @@ dependencies {
     testImplementation "org.mockito:mockito-core:2.13.0"
     //testImplementation 'org.mockito:mockito-inline:2.13.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     implementation 'com.squareup.picasso:picasso:2.8'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 }
