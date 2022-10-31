@@ -35,21 +35,39 @@ class SelectResponsesBehaviorTest {
     fun SelectIncorrectOptionOnQuestion() {
         //Check send response without option selected
         onView(withId(R.id.button)).perform(click())
-
         onView(withId(R.string.no_option_selected)).check(ViewAssertions.matches(withText(NO_OPTION_SELECTED)))
+
+        //Check response selecting incorrect response
+        onView(withId(R.id.optionOne)).perform(click())
+        onView(withId(R.id.button)).perform(click())
+        onView(withId(R.string.wrong_answer)).check(ViewAssertions.matches(withText(WRONG_ANSWER)))
     }
 
     @Test
     fun SelectCorrectOptionOnQuestion() {
-
+        onView(withId(R.id.optionThree)).perform(click())
+        onView(withId(R.id.button)).perform(click())
+        onView(withId(R.string.is_correct)).check(ViewAssertions.matches(withText(IS_CORRECT)))
     }
 
     @Test
     fun SelectCorrectOptionsForAllQuestions() {
+        onView(withId(R.id.optionThree)).perform(click())
+        onView(withId(R.id.button)).perform(click())
 
+        onView(withId(R.id.optionOne)).perform(click())
+        onView(withId(R.id.button)).perform(click())
+
+        onView(withId(R.id.optionTwo)).perform(click())
+        onView(withId(R.id.button)).perform(click())
+
+        onView(withId(R.string.congratulations)).check(ViewAssertions.matches(withText(CONGRATULATIONS)))
     }
 
     companion object {
         val NO_OPTION_SELECTED = "no_option_selected"
+        val WRONG_ANSWER = "WRONG ANSWER!"
+        val IS_CORRECT = "IS CORRECT!"
+        val CONGRATULATIONS = "congratulations!"
     }
 }
